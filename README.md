@@ -46,7 +46,7 @@ langchain-phi3-mini-hf-inference/
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/YourUsername/langchain-phi3-mini-hf-inference.git
+git clone https://github.com/GovindaTak/langchain-phi3-mini-hf-inference.git
 cd langchain-phi3-mini-hf-inference
 ````
 
