@@ -1,0 +1,26 @@
+# Ignore Python virtual environments
+venv/
+.env/
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore environment and token files
+.env
+*.env
+
+# Ignore VS Code settings (optional)
+.vscode/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore requirements.txt (as you asked)
+requirements.txt
