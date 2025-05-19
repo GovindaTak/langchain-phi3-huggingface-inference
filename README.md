@@ -1,139 +1,143 @@
-# langchain-phi3-huggingface-inference
-Run Hugging Face's Phi-3 Mini model using LangChain in a Python project via VS Code. This project demonstrates prompt execution using langchain-huggingface and Inference API with token security via .env.
----
-```markdown
-# 🧠 LangChain + Phi-3 Mini (HuggingFace Inference)
+# 🧠 LangChain with Hugging Face & OpenAI | Prompt Engineering Practice
 
-This project demonstrates how to use [LangChain](https://python.langchain.com/) with Hugging Face's `microsoft/Phi-3-mini-4k-instruct` model via the Hugging Face Inference API. It's structured for secure and modular local development using Python.
+This project demonstrates how to use **LangChain** with **Hugging Face (Phi-3 Mini)** and **OpenAI (GPT-3.5 Turbo)** for prompt engineering tasks, specifically focused on invoking models and comparing their behavior with similar prompts.
 
 ---
 
-## 🚀 Features
+## 📌 Objective
 
-- ✅ Call Phi-3 Mini through HuggingFace Inference API using LangChain.
-- ✅ Secure your API key with `.env` using `python-dotenv`.
-- ✅ Lightweight and modular code for easy integration into future apps.
-- ✅ Ideal for testing LLM prompts, building chains, or extending to agents.
+To explore and compare how Hugging Face’s Phi-3 Mini and OpenAI’s GPT-3.5 respond to prompt engineering using LangChain’s `HuggingFaceEndpoint` and `ChatOpenAI` wrappers.
 
 ---
 
-## 🧩 Tech Stack
+## 🧪 What This Project Includes
 
-- **Python 3.10+**
-- **LangChain 0.3.11**
-- **Hugging Face Inference API**
-- **HuggingFaceHub 0.26.5**
-- **python-dotenv**
-
----
-
-## 📁 Folder Structure
-
-```
-
-langchain-phi3-mini-hf-inference/
-├── main.py               # Core logic to invoke GPT model
-├── .env                  # API token file (not committed)
-├── requirements.txt      # Python dependencies
-└── README.md             # Project documentation
-
-````
+* ✅ Installation & environment setup for LangChain, HuggingFace, OpenAI
+* ✅ Use of `.env` for securely loading API keys
+* ✅ Loading Phi-3 Mini (`microsoft/Phi-3-mini-4k-instruct`) via Hugging Face
+* ✅ Prompt testing with OpenAI’s GPT-3.5 Turbo & GPT-3.5 Turbo Instruct
+* ✅ Comparative outputs for the same prompts
+* ✅ Focus on practical GenAI skill-building with LLMs
 
 ---
 
-## ⚙️ Setup Instructions
+## 🔧 Tech Stack
 
-### 1️⃣ Clone the Repository
+* Python 3.11
+* LangChain `0.3.11`
+* LangChain OpenAI & HuggingFace integrations
+* Hugging Face Transformers `4.46.3`
+* OpenAI API
+* Google Colab or local Jupyter setup
+
+---
+
+## 🧠 Skills Learned
+
+* Setting up Hugging Face API with secure access
+* Using `HuggingFaceEndpoint` from LangChain for model inference
+* Invoking OpenAI GPT models using `ChatOpenAI` and `OpenAI`
+* Comparing structured and conversational responses
+* Prompt crafting for LLMs and formatting responses
+* Fine-tuning generation parameters (temperature, max tokens, etc.)
+
+---
+
+## 🚀 Setup Instructions
+
+### 1. Install dependencies
 
 ```bash
-git clone https://github.com/GovindaTak/langchain-phi3-mini-hf-inference.git
-cd langchain-phi3-mini-hf-inference
-````
-
-### 2️⃣ Create & Activate Virtual Environment
-
-```bash
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install langchain==0.3.11
+pip install langchain-openai==0.2.12
+pip install langchain-community==0.3.11
+pip install langchain-huggingface
+pip install huggingface_hub==0.26.5
+pip install transformers==4.46.3
 ```
 
-### 3️⃣ Install Dependencies
+### 2. Load your API keys securely
 
-```bash
-pip install -r requirements.txt
-```
+```python
+from getpass import getpass
+import os
 
-### 4️⃣ Add Your API Key to `.env`
-
-Create a `.env` file in the root directory:
-
-```
-HUGGINGFACEHUB_API_TOKEN=your_actual_token
-```
-
-🔗 [Get your token here](https://huggingface.co/settings/tokens)
-
-### 5️⃣ Run the Script
-
-```bash
-python main.py
+os.environ["HUGGINGFACEHUB_API_TOKEN"] = getpass("Enter HuggingFace Token: ")
+os.environ["OPENAI_API_KEY"] = getpass("Enter OpenAI API Key: ")
 ```
 
 ---
 
-## 💡 Example Output
+## 🧪 How It Works
 
-```
-Response from Phi-3:
+### Hugging Face Setup
 
-• Generative AI refers to AI models that can create content such as text, images, and music.
-• It uses deep learning techniques like transformers and large language models.
-• Applications include chatbots, content generation, image synthesis, and more.
-```
+```python
+from langchain_huggingface import HuggingFaceEndpoint
 
----
+repo_id = "microsoft/Phi-3-mini-4k-instruct"
+phi3_prompt = """<|user|>Explain what is Generative AI in 3 bullet points<|end|>\n<|assistant|>"""
 
-## 🔐 Security Best Practices
-
-Make sure `.env` is in your `.gitignore`:
-
-```bash
-.env
+llm = HuggingFaceEndpoint(repo_id=repo_id, temperature=0.5, max_new_tokens=1000)
+response = llm.invoke(phi3_prompt)
+print(response)
 ```
 
-Never push your secret keys to GitHub.
+### OpenAI GPT-3.5 Turbo (Instruct)
+
+```python
+from langchain_openai import OpenAI
+
+chatgpt = OpenAI(model="gpt-3.5-turbo-instruct", temperature=0)
+response = chatgpt.invoke("Explain what is Generative AI in 3 bullet points")
+print(response)
+```
+
+### OpenAI ChatGPT (Chat Interface)
+
+```python
+from langchain_openai import ChatOpenAI
+
+chat_model = ChatOpenAI(model="gpt-3.5-turbo", temperature=0)
+response = chat_model.invoke("Explain what is Generative AI in 3 bullet points")
+print(response.content)
+```
 
 ---
 
-## 📌 Future Enhancements
+## 📊 Output Comparison (Sample)
 
-* Integrate LangChain Prompt Templates
-* Wrap with `LLMChain`
-* Build a minimal Streamlit web app
-* Add tools & memory to build autonomous agents
-
----
-
-## 🙌 What I Learned
-
-* How to use LangChain with Hugging Face-hosted models
-* How to design secure API-based apps in Python
-* Prompt formatting with LangChain's LLM wrappers
-* Effective logging and API response handling
-* Best practices for environment setup and modular code
+| Model            | Output Style          | Structure      |
+| ---------------- | --------------------- | -------------- |
+| Phi-3 Mini       | Bullet points (basic) | Informative    |
+| GPT-3.5 Instruct | Formal and direct     | Clear bullets  |
+| GPT-3.5 Turbo    | Conversational        | Natural & rich |
 
 ---
 
-## 🧠 Author
+## 🧠 Learnings Recap
 
-👤 Govinda Tak
-📫 Email: [govindatak19@gmail.com](mailto:govindatak19@gmail.com)
-🔗 GitHub: [GovindaTak](https://github.com/GovindaTak)
+* How to use Hugging Face models via LangChain
+* LangChain’s unified LLM interface across providers
+* Prompt formatting and structuring for consistent results
+* Comparative behavior of LLMs for the same query
+* Token usage monitoring and response control
+
+---
+
+## 📌 Next Steps
+
+* ✅ Wrap responses with chains and agents
+* ✅ Add memory or document input (RAG)
+* 🔜 Build a prompt evaluation dashboard
+* 🔜 Try other models like Mistral, Llama 3 via Hugging Face
 
 ---
 
 ## 📜 License
 
-Licensed under the MIT License.
+MIT License
+
+---
 
 
